@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: f9cb92892aeccab4f8d21da31053bd7b
+timeCreated: 1539791433
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Linux Libertine Capitals
+  fontNames:
+  - Linux Libertine Capitals
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 0cea12104f96ced47bc1a777b6d663ed, type: 3}
+  - {fileID: 12800000, guid: ba9ec1bae363db14e9d6c1010540760c, type: 3}
+  - {fileID: 12800000, guid: a0bf61ef22c041b408ac781e5984daec, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

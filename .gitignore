@@ -46,3 +46,5 @@ sysinfo.txt
 # Libraries, Middleware and Examples
 *Assets/EffectExamples
 *Assets/Plugins
+*Assets/Models/Real Materials
+*Assets/PostProcessing

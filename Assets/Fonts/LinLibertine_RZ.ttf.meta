@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: a3a8560f254e346418bb3fade6468db6
+timeCreated: 1539791433
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Linux Libertine
+  fontNames:
+  - Linux Libertine
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 1b93598315f4df14e8778934d2c0abee, type: 3}
+  - {fileID: 12800000, guid: 421bac7a706c59c449bf86bea5d4fffa, type: 3}
+  - {fileID: 12800000, guid: 3000c2ad0655bad43ac37ac9364b10be, type: 3}
+  - {fileID: 12800000, guid: 3ad471bfe9cf7f049b3fd60bdc09451a, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
