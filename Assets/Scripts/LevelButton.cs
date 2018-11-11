@@ -9,11 +9,13 @@ public class LevelButton : MonoBehaviour {
     public Sprite unlockedSprite;
     public Sprite lockedSprite;
     public Sprite lockedScoreSprite;
+    public Sprite unrankedSprite;
     public Sprite aCrown;
     public Sprite bCrown;
     public Sprite cCrown;
     public Color solidColor;
     public GameObject tooltip;
+    public AudioClip highlightSFX;
 
     private Button button;
     private PlayerSave playerSave;
@@ -25,6 +27,11 @@ public class LevelButton : MonoBehaviour {
     private void Start()
     {
         playerSave = FindObjectOfType<PlayerSave>();
+
+        if (playerSave.totalCoins > playerSave.unlockRequirement[level])
+        {
+            playerSave.level[level] = true;
+        }
         this.gameObject.GetComponentInChildren<Text>().text = playerSave.title[level];
         coinImage1 = transform.Find("Coin1").GetComponent<Image>();
         coinImage2 = transform.Find("Coin2").GetComponent<Image>();
@@ -52,11 +59,11 @@ public class LevelButton : MonoBehaviour {
             score.sprite = lockedScoreSprite;
         }
         else
-        {
+        {            
             switch (playerSave.levelGrade[level])
             {
                 case PlayerSave.LevelGrade.Ungraded:
-                    score.sprite = null;
+                    score.sprite = unrankedSprite;
                     break;
                 case PlayerSave.LevelGrade.A:
                     score.sprite = aCrown;
@@ -69,6 +76,11 @@ public class LevelButton : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    public void SetCurrentLevel()
+    {
+        FindObjectOfType<PlayerSave>().SetCurrentLevel(level);
     }
 
     private void OnGUI()
@@ -89,6 +101,10 @@ public class LevelButton : MonoBehaviour {
 
     public void MouseEnter()
     {
+        if (playerSave.level[level])
+        {
+            AudioSource.PlayClipAtPoint(highlightSFX, Camera.main.transform.position);
+        }
         if (playerSave.totalCoins < playerSave.unlockRequirement[level])
         {
             tooltip.transform.Find("Text").GetComponent<Text>().text = playerSave.unlockRequirement[level].ToString() + " coins needed to unlock this level";

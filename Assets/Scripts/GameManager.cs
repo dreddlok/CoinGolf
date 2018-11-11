@@ -18,18 +18,32 @@ public class GameManager : MonoBehaviour {
     public bool bGamePaused = false;
     public GameObject pauseMenu;
     public int CoinsCollected = 0;
+    public string levelGrade; // set at the end of the game in UpdateLevelCompleteScreen() used to save to playersave
 
     [Header("Images")]
     public Image scoreCrown;
     public Sprite goldCrown;
     public Sprite silverCrown;
     public Sprite bronzeCrown;
+    public Sprite largeGoldCrown;
+    public Sprite largeSilverCrown;
+    public Sprite largeBronzeCrown;
+
+    [Header("Level Complete UI Elements")]
+    public Image LargeScoreCrown;
+    public Image Coin1;
+    public Image Coin2;
+    public Image Coin3;
 
     // Use this for initialization
     void Start () {
         flickDisplay.text = "SHOTS " + flicksLeft.ToString(); //TODO remove game manager from start and level select scenes
         CoinDisplay = FindObjectOfType<CoinDisplay>();
         scoreCrown = GameObject.Find("Score Crown").GetComponent<Image>();
+        //LargeScoreCrown = GameObject.Find("Large Score Crown").GetComponent<Image>();
+        //Coin1 = GameObject.Find("Collectable").GetComponent<Image>();
+        //Coin2 = GameObject.Find("Collectable2").GetComponent<Image>();
+        //Coin3 = GameObject.Find("Collectable3").GetComponent<Image>();
     }
 
     private void Update()
@@ -85,6 +99,58 @@ public class GameManager : MonoBehaviour {
         {
             scoreCrown.sprite = bronzeCrown;
         }
+    }
+
+    public void UpdateLevelCompleteScreen()
+    {
+        Coin1.color = CoinDisplay.collectable1.color;
+        Coin2.color = CoinDisplay.collectable2.color;
+        Coin3.color = CoinDisplay.collectable3.color;
+
+        if (flicksLeft >= ARank)
+        {
+            LargeScoreCrown.sprite = largeGoldCrown;
+            levelGrade = "A";
+        }
+        else if (flicksLeft >= BRank)
+        {
+            LargeScoreCrown.sprite = largeSilverCrown;
+            levelGrade = "B";
+        }
+        else if (flicksLeft >= CRank)
+        {
+            LargeScoreCrown.sprite = largeBronzeCrown;
+            levelGrade = "C";
+        }
+    }
+
+    public void SaveLevelAchievements()
+    {
+        PlayerSave playerSave = FindObjectOfType<PlayerSave>();
+        if (playerSave.levelCoins[playerSave.currentlevel] < CoinsCollected)
+        {
+            playerSave.levelCoins[playerSave.currentlevel] = CoinsCollected;
+        }
+        switch (levelGrade)
+        {
+            case "A":
+                playerSave.levelGrade[playerSave.currentlevel] = PlayerSave.LevelGrade.A;
+                break;
+            case "B":
+                if(playerSave.levelGrade[playerSave.currentlevel] == PlayerSave.LevelGrade.C || playerSave.levelGrade[playerSave.currentlevel] == PlayerSave.LevelGrade.Ungraded)
+                {
+                    playerSave.levelGrade[playerSave.currentlevel] = PlayerSave.LevelGrade.B;
+                }
+                break;
+            case "C":
+                if (playerSave.levelGrade[playerSave.currentlevel] == PlayerSave.LevelGrade.Ungraded)
+                {
+                    playerSave.levelGrade[playerSave.currentlevel] = PlayerSave.LevelGrade.C;
+                }
+                break;
+        }
+        playerSave.RefreshTotalCoins();
+        playerSave.Save();
     }
 	
 }

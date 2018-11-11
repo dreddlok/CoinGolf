@@ -14,6 +14,8 @@ public class PlayerSave : MonoBehaviour {
     public float volume;
     public float sfxVolume;
     public static PlayerSave instance = null;
+    public GameObject saveIcon;
+    public int currentlevel = 0;
 
     private void Awake()
     {
@@ -53,6 +55,7 @@ public class PlayerSave : MonoBehaviour {
     {
         SaveGameManager.SavePlayer(this);
         Debug.Log("Game Saved");
+        Instantiate(saveIcon);
     }
 
     public void Load()
@@ -87,5 +90,19 @@ public class PlayerSave : MonoBehaviour {
         sfxVolume = 1;
         Save();
         Debug.Log("save cleared");
+    }
+
+    public void SetCurrentLevel(int level)
+    {
+        currentlevel = level;
+    }
+
+    public void RefreshTotalCoins()
+    {
+        totalCoins = 0;
+        for (int i = 0; i < level.Length; i++)
+        {
+            totalCoins += levelCoins[i];
+        }
     }
 }

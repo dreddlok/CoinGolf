@@ -6,8 +6,14 @@ public class goal : MonoBehaviour {
 
     public AudioClip winSFX;
     public GameObject winScreen;
+    public Vector3 rotAngle;
 
     public bool CoinInGoal = false;
+
+    private void Update()
+    {
+        transform.Rotate(rotAngle);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,8 +35,11 @@ public class goal : MonoBehaviour {
             Debug.Log("Goal reached!!!" + Time.time);
             GetComponent<AudioSource>().PlayOneShot(winSFX);
             winScreen.SetActive(true);
-            yield return new WaitForSeconds(3);
-            FindObjectOfType<LevelManager>().LoadLevel("Level Select");
+            Cursor.visible = true;
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            gameManager.UpdateLevelCompleteScreen();
+            gameManager.bGamePaused = true;
+            gameManager.SaveLevelAchievements();
         }        
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class coin : MonoBehaviour {
 
@@ -31,15 +32,19 @@ public class coin : MonoBehaviour {
     private float pitch = 0;
 
     private Vector2 dragVector;
+    private bool IntroIsPlaying;
 
     private void Start()
     {
-        mouseXstart = Input.mousePosition.x;
-        mouseYstart = Input.mousePosition.y;
+        //mouseXstart = Input.mousePosition.x;
+        //mouseYstart = Input.mousePosition.y;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
         RespawnLocation = transform.position;
+
         gameManager = FindObjectOfType<GameManager>();
+
+        PanCameraFromGoal();
     }
 
     // Update is called once per frame
@@ -54,7 +59,29 @@ public class coin : MonoBehaviour {
         {
             SeparateRoateAndFlick();
         }
+        Debug.Log("Yaw: " + yaw);
+    }
 
+    public void PanCameraFromGoal()
+    {
+        Sequence tweenSequence = DOTween.Sequence()
+            .AppendCallback(() =>
+            {
+                // this is callback
+                yaw = 0;
+                pitch = 0;
+                gameManager.bGamePaused = true;
+                IntroIsPlaying = true;
+            })
+            .AppendInterval(1.5f)
+            .Append(Camera.main.transform.DOLocalMove(new Vector3(1.03f, 2.45f, -2.66f), 2.5f ).From())
+            .AppendCallback(() =>
+            {
+                // this is callback
+                gameManager.bGamePaused = false;
+                IntroIsPlaying = false;
+
+            }); 
     }
 
     public void Respawn()
@@ -186,7 +213,7 @@ public class coin : MonoBehaviour {
             {
                 GetComponent<AudioSource>().Stop();
             }
-        }        
+        }
     }
 
     IEnumerator FinalFlick()
