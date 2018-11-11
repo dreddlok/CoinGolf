@@ -16,6 +16,7 @@ public class coin : MonoBehaviour {
     public AudioClip chinkSFX;
     public Vector3 RespawnLocation;
     public float pitchSpeed = 2.0f;
+    public Vector3 goalViewingCameraPos = new Vector3(1.03f, 2.45f, -2.66f);
 
     private Vector3 mouseStartPos = Vector3.zero;
     private Vector3 mouseEndPos = Vector3.zero;
@@ -59,7 +60,6 @@ public class coin : MonoBehaviour {
         {
             SeparateRoateAndFlick();
         }
-        Debug.Log("Yaw: " + yaw);
     }
 
     public void PanCameraFromGoal()
@@ -74,14 +74,18 @@ public class coin : MonoBehaviour {
                 IntroIsPlaying = true;
             })
             .AppendInterval(1.5f)
-            .Append(Camera.main.transform.DOLocalMove(new Vector3(1.03f, 2.45f, -2.66f), 2.5f ).From())
+            .Append(Camera.main.transform.DOLocalMove(goalViewingCameraPos, 2.5f ).From())
             .AppendCallback(() =>
             {
                 // this is callback
-                gameManager.bGamePaused = false;
                 IntroIsPlaying = false;
+                gameManager.bGamePaused = false;
+            });
 
-            }); 
+        if (Input.GetButtonUp("OpenMenu"))
+        {
+            tweenSequence.TogglePause();
+        }
     }
 
     public void Respawn()
@@ -148,7 +152,7 @@ public class coin : MonoBehaviour {
 
     private void SeparateRoateAndFlick()
     {
-        if (!gameManager.bGamePaused)
+        if (!gameManager.bGamePaused || IntroIsPlaying)
         {
             yaw += Input.GetAxis("Mouse X");
             pitch += Input.GetAxis("Mouse Y");
