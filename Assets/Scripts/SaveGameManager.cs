@@ -19,7 +19,7 @@ public static class SaveGameManager {
 
     }
 
-    public static bool[] LoadPlayer(out float volume)
+    public static bool[] LoadPlayer(out float volume, out float sfxVolume, out int [] levelCoins, out PlayerSave.LevelGrade [] levelGrade)
     {
         if (File.Exists(Application.persistentDataPath + "/Save.sav"))
         {
@@ -29,11 +29,17 @@ public static class SaveGameManager {
             PlayerData data = binaryFormatter.Deserialize(stream) as PlayerData;
             stream.Close();
             volume = data.volume;
+            sfxVolume = data.sfxVolume;
+            levelCoins = data.levelCoins;
+            levelGrade = data.levelGrade;
             return data.levelsUnlocked;
         } else
         {
             Debug.Log("File does not exist");
             volume = 1;
+            sfxVolume = 1;
+            levelCoins = new int[9];
+            levelGrade = new PlayerSave.LevelGrade[9];
             return new bool[9];
         }
         
@@ -45,13 +51,18 @@ public static class SaveGameManager {
     {
         public bool[] levelsUnlocked;
         public float volume;
+        public bool[] level;
+        public PlayerSave.LevelGrade[] levelGrade;
+        public int[] levelCoins; // the number of coins collected in the level
+        public float sfxVolume;
 
         public PlayerData(PlayerSave playerSave )
         {
             levelsUnlocked = playerSave.level;
-            Debug.Log(playerSave.level.ToString());
             volume = playerSave.volume;
-            Debug.Log(playerSave.volume.ToString());
+            sfxVolume = playerSave.sfxVolume;
+            levelCoins = playerSave.levelCoins;
+            levelGrade = playerSave.levelGrade;
         }
     }
 

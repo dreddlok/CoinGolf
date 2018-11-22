@@ -23,6 +23,8 @@ public class Options : MonoBehaviour {
         width[5] = 1680; height[5] = 1050;
         width[6] = 1280; height[6] = 1024;
         width[7] = 1360; height[7] = 768;
+
+
     }
 
     public void ToggleFullscreen()

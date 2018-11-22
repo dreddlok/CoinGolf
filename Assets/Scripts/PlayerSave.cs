@@ -61,7 +61,7 @@ public class PlayerSave : MonoBehaviour {
     public void Load()
     {
         
-        level = SaveGameManager.LoadPlayer(out volume);
+        level = SaveGameManager.LoadPlayer(out volume, out  sfxVolume, out  levelCoins, out levelGrade);
     }
 
     public void ChangeVolume(float amount)

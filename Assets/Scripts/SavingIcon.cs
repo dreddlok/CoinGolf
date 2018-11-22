@@ -15,7 +15,7 @@ public class SavingIcon : MonoBehaviour {
         //text.DOFade(0, 4).From();
         //coin.DOFade(0, 4).From();
 
-        Sequence tweenSequence = DOTween.Sequence()            
+        DOTween.Sequence()            
             .Append(text.DOFade(0, 4).From())
             .Join(coin.DOFade(0, 4).From())
             .AppendInterval(0.5f)

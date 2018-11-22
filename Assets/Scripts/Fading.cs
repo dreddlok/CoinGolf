@@ -34,7 +34,7 @@ public class Fading : MonoBehaviour {
     }
 
     //This creates a fade in effect when the level is loaded
-    private void OnLevelWasLoaded(int level)
+    private void Start()
     {
         BeginFade(-1);
     }

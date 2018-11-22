@@ -9,6 +9,7 @@ public class FallTrigger : MonoBehaviour {
         if (other.tag == "Player")
         {
             other.GetComponent<coin>().Respawn();
+            GetComponent<AudioSource>().Play();
         }
     }
 }

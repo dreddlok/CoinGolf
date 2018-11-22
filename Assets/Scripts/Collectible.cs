@@ -8,7 +8,6 @@ public class Collectible : MonoBehaviour {
     private bool bCoinCollected = false;
     public Material glowMaterial;
     public float fadeDuration = 3;
-    private float emissionScale = 3;
 
     private void OnCollisionEnter(Collision collision)
     {
