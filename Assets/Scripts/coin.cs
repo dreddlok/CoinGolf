@@ -18,6 +18,8 @@ public class coin : MonoBehaviour {
     public float pitchSpeed = 2.0f;
     public float yawMultiplier = 2;
     public Transform goalPreviewCam;
+    public bool bPlayCutScene = true;
+    public bool bFlickingAbilitySuspended = false;
 
     private Vector3 mouseStartPos = Vector3.zero;
     private Vector3 mouseEndPos = Vector3.zero;
@@ -36,7 +38,7 @@ public class coin : MonoBehaviour {
 
     Sequence tweenSequence;
 
-    private void Start()
+    private void Awake()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
@@ -44,7 +46,10 @@ public class coin : MonoBehaviour {
 
         gameManager = FindObjectOfType<GameManager>();
 
-        PanCameraFromGoal();
+        if (bPlayCutScene)
+        {
+            PanCameraFromGoal();
+        }
     }
 
     // Update is called once per frame
@@ -67,14 +72,17 @@ public class coin : MonoBehaviour {
         {
             yawMultiplier = .5f;
         }
-
-        if (Input.GetButtonUp("Fire1") && tweenSequence.IsPlaying()) 
+        
+        if(bPlayCutScene)
         {
-            if (gameManager.bGamePaused == true)
+            if (Input.GetButtonUp("Fire1") && tweenSequence.IsPlaying())
             {
-                gameManager.bGamePaused = false;
+                if (gameManager.bGamePaused == true)
+                {
+                    gameManager.bGamePaused = false;
+                }
+                tweenSequence.Complete();
             }
-            tweenSequence.Complete();
         }
     }
 
@@ -179,7 +187,7 @@ public class coin : MonoBehaviour {
             yaw += Input.GetAxis("Mouse X");
             pitch += Input.GetAxis("Mouse Y");
             transform.eulerAngles = new Vector3(-90, yaw, 0);
-            if (Input.GetButton("Fire1") && gameManager.flicksLeft > 0 && !bFlickCancelled)
+            if (Input.GetButton("Fire1") && gameManager.flicksLeft > 0 && !bFlickCancelled && !bFlickingAbilitySuspended)
             {                
                 arrow.transform.localPosition -= new Vector3(0, Input.GetAxis("Mouse Y") * .1f, 0);
                 arrow.transform.localPosition = new Vector3(arrow.transform.localPosition.x, Mathf.Clamp(arrow.transform.localPosition.y, .3f, 1f), arrow.transform.localPosition.z );

@@ -20,6 +20,17 @@ public class GameManager : MonoBehaviour {
     public int CoinsCollected = 0;
     public string levelGrade; // set at the end of the game in UpdateLevelCompleteScreen() used to save to playersave
 
+    [Header("Tutorial")]
+    public bool bInTutorial = false;
+    public GameObject congratulations;
+    public GameObject nextTut;
+    public Transform player;
+    public Transform teleportLocation;
+    public Text CurrentObjectiveDisplay;
+    public GameObject shotsPanel;
+    public GameObject shotCount;
+    public AudioClip failChallenge;
+
     [Header("Images")]
     public Image scoreCrown;
     public Sprite goldCrown;
@@ -58,12 +69,40 @@ public class GameManager : MonoBehaviour {
     {
         CoinsCollected++;
         CoinDisplay.RefreshImages();
-
+        if (bInTutorial)
+        {
+            CurrentObjectiveDisplay.text = "Collect three coins (" + CoinsCollected + "/3)";
+            if (CoinsCollected >= 3)
+            {
+                congratulations.SetActive(true);
+                nextTut.SetActive(true);
+                bGamePaused = true;
+                player.position = teleportLocation.position;
+                coin playerCoin = player.GetComponent<coin>();
+                playerCoin.RespawnLocation = player.transform.position;
+                flicksLeft = 3;
+                flickDisplay.text = "SHOTS " + flicksLeft.ToString();
+                CoinDisplay.gameObject.SetActive(true);
+                shotCount.SetActive(true);
+                shotsPanel.SetActive(true);
+            }            
+        }
     }
 
     public void OutOfFlicks()
     {
-        StartCoroutine(QuitLevel());
+        if (!bInTutorial)
+        {
+            StartCoroutine(QuitLevel());
+        }
+        else
+        {            
+            GetComponent<AudioSource>().clip = failChallenge;
+            GetComponent<AudioSource>().Play();
+            player.position = teleportLocation.position;
+            flicksLeft = 3;
+            flickDisplay.text = "SHOTS " + flicksLeft.ToString();
+        }
     }
 
     public void PauseGame()
