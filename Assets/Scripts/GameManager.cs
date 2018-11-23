@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour {
     public GameObject shotsPanel;
     public GameObject shotCount;
     public AudioClip failChallenge;
+    public float skipMeter = 0;
+    public float skipThreshold = 3;
+    public Slider skipProgressBar;
 
     [Header("Images")]
     public Image scoreCrown;
@@ -55,13 +58,35 @@ public class GameManager : MonoBehaviour {
         //Coin1 = GameObject.Find("Collectable").GetComponent<Image>();
         //Coin2 = GameObject.Find("Collectable2").GetComponent<Image>();
         //Coin3 = GameObject.Find("Collectable3").GetComponent<Image>();
+        if (bInTutorial)
+        {
+            skipProgressBar.maxValue = skipThreshold;
+        }
     }
 
     private void Update()
-    {
-        if (Input.GetButtonUp("OpenMenu"))
+    {        
+        if (bInTutorial)
         {
-            PauseGame();            
+            if (Input.GetButton("OpenMenu"))
+            {
+                skipMeter += 1 * Time.deltaTime;
+                if (skipMeter>= skipThreshold)
+                {
+                    FindObjectOfType<LevelManager>().LoadLevel("Level Select");
+                }
+            }
+            else
+            {
+                if (skipMeter > 0)
+                {
+                    skipMeter -= 3 * Time.deltaTime;
+                }
+            }
+            skipProgressBar.value = skipMeter;
+        } else if (Input.GetButtonUp("OpenMenu"))
+        {
+            PauseGame();
         }
     }
 
