@@ -7,7 +7,7 @@ public class TotalCoinDisplay : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+        FindObjectOfType<PlayerSave>().RefreshTotalCoins();
         GetComponent<Text>().text = FindObjectOfType<PlayerSave>().totalCoins.ToString();
 	}
 }

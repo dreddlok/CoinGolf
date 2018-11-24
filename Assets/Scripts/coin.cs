@@ -199,7 +199,7 @@ public class coin : MonoBehaviour {
                 
             }
 
-            if (Input.GetButtonUp("Fire1") && arrow.activeSelf)
+            if (Input.GetButtonUp("Fire1") && arrow.activeSelf && !bFlickingAbilitySuspended)
             {
                 
                 if (bFlickCancelled)
