@@ -65,5 +65,6 @@ public class Options : MonoBehaviour {
         {
             playerSave.ChangeSFXVolume(value);
         }
+        audioMixer.SetFloat("SFX Volume", -80 + value * 80);
     }
 }

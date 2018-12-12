@@ -27,7 +27,6 @@ public class LevelButton : MonoBehaviour {
     private void Start()
     {
         playerSave = FindObjectOfType<PlayerSave>();
-
         if (playerSave.totalCoins > playerSave.unlockRequirement[level])
         {
             playerSave.level[level] = true;
@@ -37,6 +36,7 @@ public class LevelButton : MonoBehaviour {
         coinImage2 = transform.Find("Coin2").GetComponent<Image>();
         coinImage3 = transform.Find("Coin3").GetComponent<Image>();
         score = transform.Find("Score").GetComponent<Image>();
+        score.sprite = lockedScoreSprite;
         switch (playerSave.levelCoins[level])
         {
             case 0:
@@ -87,10 +87,25 @@ public class LevelButton : MonoBehaviour {
     {
         PlayerSave playerData = FindObjectOfType<PlayerSave>();
         button = GetComponent<Button>();
-        if (playerData.level[level])
+        if (playerSave.totalCoins >= playerSave.unlockRequirement[level])
         {
             button.image.sprite = unlockedSprite;
             button.interactable = true;
+            switch (playerSave.levelGrade[level])
+            {
+                case PlayerSave.LevelGrade.Ungraded:
+                    score.sprite = unrankedSprite;
+                    break;
+                case PlayerSave.LevelGrade.A:
+                    score.sprite = aCrown;
+                    break;
+                case PlayerSave.LevelGrade.B:
+                    score.sprite = bCrown;
+                    break;
+                case PlayerSave.LevelGrade.C:
+                    score.sprite = cCrown;
+                    break;
+            }
         }
         else
         {

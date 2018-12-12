@@ -38,9 +38,9 @@ public static class SaveGameManager {
             Debug.Log("File does not exist");
             volume = 1;
             sfxVolume = 1;
-            levelCoins = new int[9];
-            levelGrade = new PlayerSave.LevelGrade[9];
-            return new bool[9];
+            levelCoins = new int[19];
+            levelGrade = new PlayerSave.LevelGrade[19];
+            return new bool[19];
         }
         
     }

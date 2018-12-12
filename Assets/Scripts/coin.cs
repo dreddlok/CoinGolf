@@ -34,7 +34,8 @@ public class coin : MonoBehaviour {
     private float mouseYstart;
     private float yaw = 0;
     private float pitch = 0;
-    private bool IntroIsPlaying;
+    public bool IntroIsPlaying;
+    private Vector3 initialVector = Vector3.forward;
 
     Sequence tweenSequence;
 
@@ -194,9 +195,8 @@ public class coin : MonoBehaviour {
                 arrow.SetActive(true);
             }
             else
-            {                
-                Camera.main.transform.RotateAround(transform.position, transform.right, Input.GetAxis("Mouse Y"));
-                
+            {
+                OrbitCamera();
             }
 
             if (Input.GetButtonUp("Fire1") && arrow.activeSelf && !bFlickingAbilitySuspended)
@@ -267,4 +267,19 @@ public class coin : MonoBehaviour {
         }
     }
 
+    private void OrbitCamera()
+    {
+        Transform cameraTransform = Camera.main.transform;
+        cameraTransform.RotateAround(transform.position, transform.right, Input.GetAxis("Mouse Y"));
+        float x = cameraTransform.localEulerAngles.x;
+        if (x < 290)
+        {
+            cameraTransform.RotateAround(transform.position, transform.right, -Input.GetAxis("Mouse Y"));
+        }
+        if (x > 350)
+        {
+            cameraTransform.RotateAround(transform.position, transform.right, -Input.GetAxis("Mouse Y"));
+        }
+    }
+    
 }

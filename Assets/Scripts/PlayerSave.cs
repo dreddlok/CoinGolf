@@ -34,21 +34,8 @@ public class PlayerSave : MonoBehaviour {
     private void Start()
     {
         Load();
-
+        RefreshTotalCoins();
         level[0] = true;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            Save();
-        }
-        else if (Input.GetKeyDown("backspace"))
-        {
-            Load();
-            Debug.Log("Game Loaded");
-        }
     }
 
     public void Save()
@@ -73,7 +60,7 @@ public class PlayerSave : MonoBehaviour {
     public void ChangeSFXVolume(float amount)
     {
         sfxVolume = amount;
-        sfxVolume = Mathf.Clamp(volume, 0, 1);
+        sfxVolume = Mathf.Clamp(sfxVolume, 0, 1);
     }
 
     public void ClearSave()

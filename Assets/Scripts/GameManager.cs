@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour {
                 skipMeter += 1 * Time.deltaTime;
                 if (skipMeter>= skipThreshold)
                 {
+                    FindObjectOfType<PlayerSave>().levelCoins[0] = 3;
+                    SaveLevelAchievements();
                     FindObjectOfType<LevelManager>().LoadLevel("Level Select");
                 }
             }
@@ -132,10 +134,13 @@ public class GameManager : MonoBehaviour {
 
     public void PauseGame()
     {
-        bGamePaused = !bGamePaused;
-        Cursor.visible = bGamePaused;
-        Debug.Log("Pause state = " + bGamePaused + Time.deltaTime);
-        pauseMenu.SetActive(!pauseMenu.activeSelf);
+        if (!FindObjectOfType<coin>().IntroIsPlaying)
+        {
+            bGamePaused = !bGamePaused;
+            Cursor.visible = bGamePaused;
+            Debug.Log("Pause state = " + bGamePaused + Time.deltaTime);
+            pauseMenu.SetActive(!pauseMenu.activeSelf);
+        }
     }
 
     IEnumerator QuitLevel()
@@ -181,7 +186,7 @@ public class GameManager : MonoBehaviour {
             LargeScoreCrown.sprite = largeSilverCrown;
             levelGrade = "B";
         }
-        else if (flicksLeft >= CRank)
+        else //if (flicksLeft >= CRank)
         {
             LargeScoreCrown.sprite = largeBronzeCrown;
             levelGrade = "C";
